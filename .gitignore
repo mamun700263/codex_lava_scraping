@@ -151,3 +151,7 @@ output/
 *.patch
 *.rej
 *.merge_backup
+
+# ====== My research ======
+research/
+/
