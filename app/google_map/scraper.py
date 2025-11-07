@@ -1,7 +1,7 @@
 import random
 import asyncio
 from playwright.async_api import async_playwright
-from core import Logger
+from app.core import Logger
 from .card_management import extract_card, get_cards
 from .cookies_concent import consent_pop_up
 from .scrolling import scrolling_map_search

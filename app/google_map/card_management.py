@@ -21,6 +21,7 @@ async def extract_address(spans: list, index: int = 0) -> str | None:
     return await extract_address(spans, index + 1)
 
 
+
 async def extract_card(card: str):
     anchor = await card.query_selector("a")
     img_el = await card.query_selector("img")

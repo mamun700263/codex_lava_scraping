@@ -2,9 +2,9 @@ from typing import List, Dict
 
 from urllib.parse import quote_plus
 
-from core.logger import Logger
-from core.utils import ScraperConfig, SoupUtils, Scroller, Pagination, Humanizer
-from core.scrapers.base import BaseProductExtractor
+from app.core .logger import Logger
+from app.core .utils import ScraperConfig, SoupUtils, Scroller, Pagination, Humanizer
+from app.core .scrapers.base import BaseProductExtractor
 
 
 class BaseScraper:

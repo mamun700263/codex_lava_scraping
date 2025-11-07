@@ -1,5 +1,5 @@
 import asyncio
-from core import Logger
+from app.core import Logger
 
 
 async def consent_pop_up(page: str, logger: Logger):

@@ -1,6 +1,6 @@
 import asyncio
 import os
-from core.data_exporters import FileSaver
+from app.core.data_exporters import FileSaver
 from app.google_map.scraper import scraper
 
 
@@ -9,6 +9,7 @@ async def run_scraper(query: str, file_name: str):
     data = await scraper(query)
     FileSaver.save(data, f"{file_name}")
     print(f"[SUCCESS] Saved results to {file_name}")
+    return data
 
 
 if __name__ == "__main__":
