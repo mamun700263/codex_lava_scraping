@@ -1,19 +1,11 @@
 import asyncio
 import os
 from app.core.data_exporters import FileSaver
-from app.google_map.scraper import scraper
+from app.tasks.google_map_scraper import run_scraper
 
-
-async def run_scraper(query: str, file_name: str):
-    print(f"[INFO] Starting scrape for: {query}")
-    data = await scraper(query)
-    FileSaver.save(data, f"{file_name}")
-    print(f"[SUCCESS] Saved results to {file_name}")
-    return data
 
 
 if __name__ == "__main__":
-    # Non-interactive defaults (for Docker)
     query = os.getenv("QUERY")
     file_name = os.getenv("FILENAME")
 
