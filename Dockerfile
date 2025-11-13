@@ -1,64 +1,24 @@
-# ---------- Base layer ----------
-FROM python:3.13-slim
+# ---------- BASE IMAGE ----------
+FROM mcr.microsoft.com/playwright/python:v1.50.0-jammy
 
-# Disable Python output buffering (so logs show instantly)
-ENV PYTHONUNBUFFERED=1
 
-# ---------- Install system dependencies ----------
-# RUN apt-get update && apt-get install -y \
-#     curl \
-#     wget \
-#     git \
-#     libnss3 \
-#     libatk1.0-0 \
-#     libatk-bridge2.0-0 \
-#     libcups2 \
-#     libdrm2 \
-#     libxkbcommon0 \
-#     libxcomposite1 \
-#     libxrandr2 \
-#     libxdamage1 \
-#     libgbm1 \
-#     libpango-1.0-0 \
-#     libasound2 \
-#     fonts-liberation \
-#     && rm -rf /var/lib/apt/lists/*
-
-# ---------- Set working directory ----------
+# ---------- WORKDIR ----------
 WORKDIR /app
 
-# ---------- Copy dependency list ----------
-COPY requirements.txt .
+# ---------- COPY LOCKED DEPENDENCIES ----------
+COPY requirements.lock .
 
-# ---------- Install Python dependencies ----------
-RUN pip install --upgrade pip && pip install -r requirements.txt
+# Install exactly what you have on your device
+RUN pip install --upgrade pip \
+    && pip install --no-cache-dir -r requirements.lock
 
-# ---------- Copy source code ----------
+# ---------- COPY PROJECT ----------
 COPY . .
 
-# ---------- Install browsers inside container ----------
-# Install Chromium dependencies manually (Debian 13-compatible)
-RUN apt-get update && apt-get install -y \
-    fonts-unifont \
-    fonts-ubuntu \
-    libnss3 \
-    libatk1.0-0 \
-    libatk-bridge2.0-0 \
-    libcups2 \
-    libxcomposite1 \
-    libxrandr2 \
-    libxdamage1 \
-    libxkbcommon0 \
-    libpango-1.0-0 \
-    libcairo2 \
-    libasound2 \
-    libdrm2 \
-    libgbm1 \
-    libxshmfence1 \
-    xvfb \
-    && playwright install chromium \
-    && rm -rf /var/lib/apt/lists/*
+# ---------- SECURITY ----------
+RUN useradd -m appuser
+USER appuser
 
-
-# ---------- Command to start scraper ----------
-CMD ["python3", "app/runner.py"]
+# ---------- EXPOSE & RUN ----------
+EXPOSE 8000
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
