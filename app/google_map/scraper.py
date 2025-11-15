@@ -33,7 +33,7 @@ async def scraper(search: str):
             page,logger
         )
         cards = await get_cards(page, logger)
-        print(f"✅ Final count: {len(cards)} cards")
+        logger.info(f"✅ Final count: {len(cards)} cards")
         data = []
         for card in cards:
             cards_data = await extract_card(card)
