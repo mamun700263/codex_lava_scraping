@@ -18,9 +18,10 @@ def search_query(sentence: str, laguage: str = "en"):
 
 
 async def scraper(search: str):
+    logger.info('scraper on ')
     async with async_playwright() as p:
         browser = await p.chromium.launch(
-            headless=True, slow_mo=150, args=["--start-maximized"]
+            headless=False, slow_mo=150, args=["--start-maximized"]
         )
         context = await browser.new_context()
         page = await context.new_page()

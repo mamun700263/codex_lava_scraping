@@ -1,6 +1,7 @@
 from app.models import GoogleMapSearch
 
 def valid_address(address: str) -> bool:
+    """the .  needs to be removed"""
     invalid_words = ["Open", "Closed", ".","Closes"]
     address.strip()
     return len(address) > 2 and not any(word in address for word in invalid_words) and not address == " · "
@@ -16,7 +17,7 @@ async def extract_address(spans: list, index: int = 0) -> str | None:
         address = await spans[target_indexes[index]].text_content()
 
     if address and valid_address(address):
-        return address
+        return address[2:]
 
     return await extract_address(spans, index + 1)
 
